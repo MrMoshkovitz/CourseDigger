@@ -98,15 +98,11 @@ def AllCourseFromCoursera():
 #?                  Coursera Digger
 #* ==================================================
 def coursera_all_courses(start, limit):
-    if not start:
-        start = 1
-    if not limit:
-        limit = 100
+    limit = loads(requests.get('https://api.coursera.org/api/courses.v1').text)['paging']['total']
     coursera_all_courses = []
     url_params = 'slug,courseType,primaryLanguages,description'
 
-    url = 'https://api.coursera.org/api/courses.v1?start=' + str(start) \
-        + '&limit=' + str(limit) + '&fields=' + url_params
+    url = 'https://api.coursera.org/api/courses.v1?limit=' + str(limit) + '&fields=' + url_params
     res = requests.get(url)
     results = res.text
     json_result = loads(results)
